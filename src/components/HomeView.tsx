@@ -33,7 +33,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
         </p>
 
         <p className="text-xs text-slate-600 leading-snug mt-2 max-w-xs mx-auto">
-          Test your biblical knowledge with 10 spiritual questions. Complete the challenge to claim 1 of 5 exclusive 13-digit digital reward cards!
+          Explore 1st Peter (Chapters 1–3) — Seeing, Living & Preaching the Hope of God's Kingdom! Complete 10 questions to claim 1 of 5 reward cards!
         </p>
 
         {/* Prize Status Badge */}

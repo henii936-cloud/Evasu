@@ -107,3 +107,8 @@ export function resetWinnersToDefault(): void {
 export function clearAllWinners(): void {
   localStorage.setItem(STORAGE_KEY_WINNERS, JSON.stringify([]));
 }
+
+export function resetAllGameData(): void {
+  localStorage.setItem(STORAGE_KEY_WINNERS, JSON.stringify([]));
+  localStorage.removeItem(STORAGE_KEY_USER_STATS);
+}
