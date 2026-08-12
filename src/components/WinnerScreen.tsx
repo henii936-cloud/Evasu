@@ -71,31 +71,31 @@ export const WinnerScreen: React.FC<WinnerScreenProps> = ({
   const seconds = timeTakenSeconds % 60;
 
   return (
-    <div className="w-full max-w-md mx-auto py-4 px-3 animate-fadeIn flex flex-col gap-4">
+    <div className="w-full max-w-sm mx-auto h-full flex flex-col justify-center py-2 px-2 animate-fadeIn gap-2 my-auto">
       {/* Top Banner */}
-      <div className="bg-slate-900 text-white rounded-2xl p-5 text-center shadow-sm">
-        <div className="w-12 h-12 bg-amber-400 text-slate-900 rounded-xl flex items-center justify-center mx-auto mb-2 text-2xl font-bold">
+      <div className="bg-slate-900 text-white rounded-2xl p-3.5 text-center shadow-sm shrink-0">
+        <div className="w-10 h-10 bg-amber-400 text-slate-900 rounded-xl flex items-center justify-center mx-auto mb-1 text-xl font-bold">
           🏆
         </div>
 
-        <h1 className="text-xl font-extrabold uppercase tracking-wide">
+        <h1 className="text-lg font-extrabold uppercase tracking-wide">
           {isPerfectScore ? 'CHAMPION!' : 'QUEST COMPLETED!'}
         </h1>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-2 bg-slate-800 p-2.5 rounded-xl my-3 text-xs font-bold">
+        <div className="grid grid-cols-3 gap-2 bg-slate-800 p-2 rounded-xl my-2 text-xs font-bold">
           <div>
-            <span className="text-slate-400 block text-[10px] uppercase">Score</span>
-            <span className="text-sm text-white">{score}/{totalQuestions}</span>
+            <span className="text-slate-400 block text-[9px] uppercase">Score</span>
+            <span className="text-xs text-white">{score}/{totalQuestions}</span>
           </div>
           <div>
-            <span className="text-slate-400 block text-[10px] uppercase">Time</span>
-            <span className="text-sm text-white">{minutes}m {seconds}s</span>
+            <span className="text-slate-400 block text-[9px] uppercase">Time</span>
+            <span className="text-xs text-white">{minutes}m {seconds}s</span>
           </div>
           <div>
-            <span className="text-slate-400 block text-[10px] uppercase">Hearts</span>
-            <span className="text-sm text-rose-400 flex items-center justify-center gap-1">
-              <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500 inline" />
+            <span className="text-slate-400 block text-[9px] uppercase">Hearts</span>
+            <span className="text-xs text-rose-400 flex items-center justify-center gap-1">
+              <Heart className="w-3 h-3 fill-rose-500 text-rose-500 inline" />
               {heartsRemaining}
             </span>
           </div>

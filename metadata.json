@@ -1,5 +1,5 @@
 {
-  "name": "Hope of the Kingdom",
+  "name": "Evasu Group 6",
   "description": "A gamified biblical quiz app with Duolingo-style progress, 10 spiritual challenges (3 emoji games & 7 typing questions), timed levels, sound effects, and 13-digit reward card prizes for the first 5 winners.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

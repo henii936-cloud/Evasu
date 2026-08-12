@@ -28,7 +28,7 @@ export default function App() {
 
   // User Stats & Gamification
   const [stats, setStats] = useState(getUserStats());
-  const [hearts, setHearts] = useState<number>(3);
+  const [hearts, setHearts] = useState<number>(5);
   const [score, setScore] = useState<number>(0);
 
   // Quiz Gameplay State
@@ -89,7 +89,7 @@ export default function App() {
   // Start Quiz
   const startQuiz = () => {
     setCurrentQuestionIdx(0);
-    setHearts(3);
+    setHearts(5);
     setScore(0);
     setSelectedOption(undefined);
     setTypedAnswer('');
@@ -309,7 +309,7 @@ export default function App() {
           setTotalTimeTaken(280);
           setView('win');
         }}
-        onResetUserHearts={() => setHearts(3)}
+        onResetUserHearts={() => setHearts(5)}
       />
     </MobileFrame>
   );
