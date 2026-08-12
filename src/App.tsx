@@ -165,7 +165,7 @@ export default function App() {
   };
 
   return (
-    <MobileFrame isMobileFrame={isMobileFrame}>
+    <MobileFrame>
       {/* Top Header */}
       <Header
         hearts={hearts}
@@ -173,15 +173,13 @@ export default function App() {
         xp={stats.totalXp}
         soundEnabled={soundEnabled}
         onToggleSound={() => setSoundEnabled(!soundEnabled)}
-        isMobileFrame={isMobileFrame}
-        onToggleMobileFrame={() => setIsMobileFrame(!isMobileFrame)}
         remainingPrizes={getRemainingWinnerSlots()}
         onOpenAdmin={() => setIsAdminOpen(true)}
         onOpenLeaderboard={() => setView('leaderboard')}
       />
 
       {/* Main Content View Switcher */}
-      <main className="flex-1 p-3 sm:p-4 pb-24 max-w-2xl mx-auto w-full">
+      <main className="flex-1 p-3 sm:p-4 max-w-lg mx-auto w-full overflow-hidden flex flex-col justify-between">
         {view === 'home' && (
           <HomeView
             onStartQuiz={startQuiz}
@@ -192,7 +190,7 @@ export default function App() {
         )}
 
         {view === 'quiz' && (
-          <div className="flex flex-col gap-4 animate-fadeIn">
+          <div className="flex-1 flex flex-col justify-between animate-fadeIn py-1">
             {/* Gamified Progress Bar & Timers */}
             <ProgressBar
               currentStep={currentQuestionIdx + 1}
@@ -203,26 +201,28 @@ export default function App() {
             />
 
             {/* Question Screen View */}
-            {currentQuestion.type === 'emoji' ? (
-              <EmojiGame
-                question={currentQuestion}
-                selectedOption={selectedOption}
-                onSelectOption={(opt) => setSelectedOption(opt)}
-                disabled={feedbackState.show}
-              />
-            ) : (
-              <TypingQuestion
-                question={currentQuestion}
-                typedAnswer={typedAnswer}
-                onTypeAnswer={(val) => setTypedAnswer(val)}
-                onSubmit={handleCheckAnswer}
-                disabled={feedbackState.show}
-              />
-            )}
+            <div className="flex-1 flex flex-col justify-center">
+              {currentQuestion.type === 'emoji' ? (
+                <EmojiGame
+                  question={currentQuestion}
+                  selectedOption={selectedOption}
+                  onSelectOption={(opt) => setSelectedOption(opt)}
+                  disabled={feedbackState.show}
+                />
+              ) : (
+                <TypingQuestion
+                  question={currentQuestion}
+                  typedAnswer={typedAnswer}
+                  onTypeAnswer={(val) => setTypedAnswer(val)}
+                  onSubmit={handleCheckAnswer}
+                  disabled={feedbackState.show}
+                />
+              )}
+            </div>
 
             {/* Check Answer Button (When Feedback is Not Active) */}
             {!feedbackState.show && (
-              <div className="pt-3">
+              <div className="pt-2 shrink-0">
                 <button
                   type="button"
                   disabled={
@@ -231,14 +231,14 @@ export default function App() {
                       : !typedAnswer.trim()
                   }
                   onClick={handleCheckAnswer}
-                  className="w-full py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-300 dark:disabled:bg-slate-800 text-white font-black text-lg tracking-wider uppercase transition-all shadow-[0_5px_0_0_#047857] active:translate-y-1 active:shadow-none disabled:cursor-not-allowed"
+                  className="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 disabled:bg-slate-200 disabled:text-slate-400 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-sm active:translate-y-0.5 disabled:cursor-not-allowed"
                 >
                   CHECK ANSWER
                 </button>
               </div>
             )}
 
-            {/* Bottom Duolingo Feedback Banner */}
+            {/* Bottom Feedback Banner */}
             {feedbackState.show && (
               <FeedbackBanner
                 isCorrect={feedbackState.isCorrect}

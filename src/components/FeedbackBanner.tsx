@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, XCircle, ArrowRight, BookOpen, Clock } from 'lucide-react';
+import { CheckCircle2, XCircle, ArrowRight, Clock } from 'lucide-react';
 
 interface FeedbackBannerProps {
   isCorrect: boolean;
@@ -20,69 +20,55 @@ export const FeedbackBanner: React.FC<FeedbackBannerProps> = ({
 }) => {
   return (
     <div
-      className={`fixed bottom-0 left-0 right-0 z-40 p-4 sm:p-6 border-t-4 shadow-2xl transition-all duration-300 animate-slideUp ${
+      className={`fixed bottom-0 left-0 right-0 z-40 p-4 border-t shadow-lg transition-all animate-slideUp ${
         isCorrect
-          ? 'bg-emerald-50 dark:bg-emerald-950 border-emerald-500 text-emerald-950 dark:text-emerald-100'
-          : 'bg-rose-50 dark:bg-rose-950 border-rose-500 text-rose-950 dark:text-rose-100'
+          ? 'bg-emerald-50 border-emerald-200 text-emerald-950'
+          : 'bg-rose-50 border-rose-200 text-rose-950'
       }`}
     >
-      <div className="max-w-2xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        {/* Left Side: Icon & Details */}
-        <div className="flex items-start gap-3.5 flex-1">
+      <div className="max-w-md mx-auto flex flex-col gap-3">
+        <div className="flex items-start gap-3">
           {isCorrect ? (
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-md">
-              <CheckCircle2 className="w-7 h-7 stroke-[2.5]" />
+            <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0">
+              <CheckCircle2 className="w-6 h-6" />
             </div>
           ) : (
-            <div className="w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center shrink-0 shadow-md">
-              {isTimeout ? <Clock className="w-7 h-7 stroke-[2.5]" /> : <XCircle className="w-7 h-7 stroke-[2.5]" />}
+            <div className="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center shrink-0">
+              {isTimeout ? <Clock className="w-6 h-6" /> : <XCircle className="w-6 h-6" />}
             </div>
           )}
 
-          <div className="space-y-1">
-            <h3 className={`text-lg sm:text-xl font-black ${isCorrect ? 'text-emerald-800 dark:text-emerald-300' : 'text-rose-800 dark:text-rose-300'}`}>
+          <div className="space-y-0.5 text-xs">
+            <h3 className={`font-extrabold text-sm ${isCorrect ? 'text-emerald-900' : 'text-rose-900'}`}>
               {isCorrect
-                ? 'Brilliant! +20 XP'
+                ? 'Correct! +20 XP'
                 : isTimeout
                 ? 'Time Expired! (-1 Heart)'
-                : 'Incorrect Answer (-1 Heart)'}
+                : 'Incorrect (-1 Heart)'}
             </h3>
 
             {!isCorrect && (
-              <p className="text-sm font-extrabold text-rose-900 dark:text-rose-200">
-                Correct Answer:{' '}
-                <span className="bg-rose-200/80 dark:bg-rose-900/80 px-2 py-0.5 rounded text-rose-950 dark:text-rose-100">
-                  {correctAnswer}
-                </span>
+              <p className="font-bold text-rose-900">
+                Answer: <span className="underline">{correctAnswer}</span>
               </p>
             )}
 
-            <div className="flex items-center gap-1.5 text-xs font-bold opacity-90 mt-1">
-              <BookOpen className="w-3.5 h-3.5 shrink-0" />
-              <span>{scriptureRef}</span>
-            </div>
-
-            <p className="text-xs sm:text-sm font-medium line-clamp-3 opacity-95 pt-0.5">
-              {explanation}
-            </p>
+            <p className="font-semibold text-slate-700">{scriptureRef}</p>
+            <p className="text-slate-600 line-clamp-2">{explanation}</p>
           </div>
         </div>
 
-        {/* Right Side: Next Action Button */}
-        <div className="w-full sm:w-auto shrink-0 pt-2 sm:pt-0">
-          <button
-            onClick={onNext}
-            className={`w-full sm:w-auto px-8 py-3.5 rounded-2xl font-black text-base tracking-wide uppercase transition-all shadow-lg active:translate-y-1 active:shadow-none flex items-center justify-center gap-2 ${
-              isCorrect
-                ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-[0_4px_0_0_#047857]'
-                : 'bg-rose-600 hover:bg-rose-500 text-white shadow-[0_4px_0_0_#be123c]'
-            }`}
-          >
-            <span>{isCorrect ? 'CONTINUE' : 'GOT IT'}</span>
-            <ArrowRight className="w-5 h-5 stroke-[3]" />
-          </button>
-        </div>
+        <button
+          onClick={onNext}
+          className={`w-full py-3 rounded-xl font-extrabold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 text-white ${
+            isCorrect ? 'bg-emerald-600 hover:bg-emerald-500' : 'bg-rose-600 hover:bg-rose-500'
+          }`}
+        >
+          <span>CONTINUE</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
       </div>
     </div>
   );
 };
+
