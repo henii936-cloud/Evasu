@@ -48,29 +48,34 @@ export const TypingQuestion: React.FC<TypingQuestionProps> = ({
         </h2>
 
         {/* Emojis Display if present */}
-        {question.emojis && question.emojis.length > 0 && (
-          <div className="bg-slate-50 rounded-xl p-2.5 my-1.5 border border-slate-100 flex items-center justify-center gap-2 flex-wrap">
-            {question.emojis.map((emoji, idx) => (
-              <span key={idx} className="text-2xl sm:text-3xl select-none">
-                {emoji}
-              </span>
-            ))}
+        {question.emojis && question.emojis.length > 0 ? (
+          <div className="flex flex-col gap-2 my-2">
+            <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex items-center justify-center gap-2.5 flex-wrap shadow-inner">
+              {question.emojis.map((emoji, idx) => (
+                <span key={idx} className="text-3xl sm:text-4xl select-none hover:scale-110 transition-transform">
+                  {emoji}
+                </span>
+              ))}
+            </div>
+            <p className="text-center text-xs font-bold text-slate-600 uppercase tracking-wider">
+              {question.questionText}
+            </p>
+          </div>
+        ) : (
+          /* Verse Card for Standard Fill-in questions */
+          <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 my-1">
+            <p className="text-sm font-serif italic text-slate-800 leading-relaxed">
+              "{question.questionText}"
+            </p>
+            {question.scriptureRef && (
+              <div className="mt-1.5 text-right">
+                <span className="inline-block bg-slate-200 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded">
+                  {question.scriptureRef}
+                </span>
+              </div>
+            )}
           </div>
         )}
-
-        {/* Verse Card */}
-        <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 my-1">
-          <p className="text-sm font-serif italic text-slate-800 leading-relaxed">
-            "{question.questionText}"
-          </p>
-          {question.scriptureRef && (
-            <div className="mt-1.5 text-right">
-              <span className="inline-block bg-slate-200 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded">
-                {question.scriptureRef}
-              </span>
-            </div>
-          )}
-        </div>
       </div>
 
       {/* Input */}

@@ -32,8 +32,8 @@ export const QUESTIONS_POOL: Question[] = [
   {
     id: 3,
     type: 'typing',
-    title: '1st Peter Author & Apostle',
-    questionText: 'Which apostle and author of 1 Peter, called by Jesus from a fisherman to shepherd His flock, is represented by these emojis?',
+    title: 'Emoji Puzzle',
+    questionText: 'Who is represented by these emojis?',
     scriptureRef: '1 Peter 1:1',
     explanation: 'Peter wrote this epistle to encourage believers scattered as pilgrims, reminding them of their living hope in Christ!',
     explanationAmharic: 'ጴጥሮስ ይህንን መልእክት የጻፈው የተበተኑትን አማኞች ለማበረታታትና በክርስቶስ ያለውን ሕያው ተስፋ ለማስታወስ ነው!',
@@ -42,7 +42,7 @@ export const QUESTIONS_POOL: Question[] = [
     correctAnswer: 'Peter',
     correctAnswerAmharic: 'ጴጥሮስ',
     acceptableAnswers: ['peter', 'ጴጥሮስ', 'saint peter', 'st peter', 'simon peter', 'petros', 'apostle peter'],
-    category: '1 Peter Characters',
+    category: 'Emoji Puzzle',
   },
   {
     id: 4,
@@ -61,8 +61,8 @@ export const QUESTIONS_POOL: Question[] = [
   {
     id: 5,
     type: 'typing',
-    title: 'Patriarch of Promise',
-    questionText: 'Which patriarch, cited in 1 Peter 3:6 as an example of trusting God\'s holy promises, is represented by these emojis?',
+    title: 'Emoji Puzzle',
+    questionText: 'Who is represented by these emojis?',
     scriptureRef: '1 Peter 3:6',
     explanation: 'Abraham trusted God\'s promise when called to leave his homeland, demonstrating unshakeable faith in God.',
     explanationAmharic: 'አብርሃም ከአገሩ እንዲወጣ በተጠራ ጊዜ የእግዚአብሔርን ተስፋ አምኖ የማይወዛወዝ እምነቱን አሳይቷል!',
@@ -71,7 +71,7 @@ export const QUESTIONS_POOL: Question[] = [
     correctAnswer: 'Abraham',
     correctAnswerAmharic: 'አብርሃም',
     acceptableAnswers: ['abraham', 'አብርሃም', 'abram', 'saint abraham'],
-    category: '1 Peter Characters',
+    category: 'Emoji Puzzle',
   },
   {
     id: 6,
@@ -90,8 +90,8 @@ export const QUESTIONS_POOL: Question[] = [
   {
     id: 7,
     type: 'typing',
-    title: 'Patience in the Days of the Ark',
-    questionText: 'Which biblical figure, explicitly named in 1 Peter 3:20 when God waited patiently while the ark was being built, is shown here?',
+    title: 'Emoji Puzzle',
+    questionText: 'Who is represented by these emojis?',
     scriptureRef: '1 Peter 3:20',
     explanation: '1 Peter 3:20 refers to the days of Noah, when God\'s patience waited while the ark was being prepared.',
     explanationAmharic: '1 ጴጥሮስ 3:20 መርከብ ሲዘጋጅ የእግዚአብሔር ትዕግሥት ይታገሥ የነበረበትን የኖኅን ዘመን ያመለክታል!',
@@ -100,7 +100,7 @@ export const QUESTIONS_POOL: Question[] = [
     correctAnswer: 'Noah',
     correctAnswerAmharic: 'ኖኅ',
     acceptableAnswers: ['noah', 'ኖኅ', 'ኖህ', 'noa', 'prophet noah'],
-    category: '1 Peter Characters',
+    category: 'Emoji Puzzle',
   },
   {
     id: 8,
@@ -119,8 +119,8 @@ export const QUESTIONS_POOL: Question[] = [
   {
     id: 9,
     type: 'typing',
-    title: 'Early Church Miracle',
-    questionText: 'Which young believer from the Early Church, who fell asleep in a window during a sermon and was restored to life, is depicted here?',
+    title: 'Emoji Puzzle',
+    questionText: 'Who is represented by these emojis?',
     scriptureRef: 'Acts 20:9',
     explanation: 'Eutychus fell three stories while listening to Paul preach late into the night, but God restored his life!',
     explanationAmharic: 'አውጤኪስ ጳውሎስ ሌሊት ሲሰብክ በመስኮት ተቀምጦ እንቅልፍ ጥሎት ከሦስተኛው ፎቅ ወደቀ፤ ነገር ግን እግዚአብሔር ሕይወቱን መለሰለት!',
@@ -129,7 +129,7 @@ export const QUESTIONS_POOL: Question[] = [
     correctAnswer: 'Eutychus',
     correctAnswerAmharic: 'አውጤኪስ',
     acceptableAnswers: ['eutychus', 'አውጤኪስ', 'eutychos', 'eutycus', 'utychus'],
-    category: 'Early Church Characters',
+    category: 'Emoji Puzzle',
   },
   {
     id: 10,
