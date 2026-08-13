@@ -6,7 +6,6 @@ import { sounds } from '../utils/audio';
 interface HomeViewProps {
   onStartQuiz: () => void;
   onOpenLeaderboard: () => void;
-  xp: number;
   streak: number;
 }
 

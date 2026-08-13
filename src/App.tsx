@@ -16,7 +16,7 @@ import { HomeView } from './components/HomeView';
 import { MobileFrame } from './components/MobileFrame';
 import { AdminModal } from './components/AdminModal';
 import { sounds } from './utils/audio';
-import { getUserStats, saveUserStats, getRemainingWinnerSlots } from './utils/storage';
+import { getUserStats, saveUserStats, getRemainingWinnerSlots, syncWinnersFromSupabase } from './utils/storage';
 import { Heart, RotateCcw, AlertTriangle, Play, Trophy } from 'lucide-react';
 
 export default function App() {
@@ -31,6 +31,13 @@ export default function App() {
   const [hearts, setHearts] = useState<number>(5);
   const [score, setScore] = useState<number>(0);
   const [, setDataVersion] = useState<number>(0);
+
+  // Sync Supabase winners on mount
+  useEffect(() => {
+    syncWinnersFromSupabase().then(() => {
+      setDataVersion((v) => v + 1);
+    });
+  }, []);
 
   // Quiz Gameplay State
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState<number>(0);
@@ -125,10 +132,6 @@ export default function App() {
     if (isCorrect) {
       sounds.playCorrect();
       setScore((prev) => prev + 1);
-      // Award XP
-      const updatedStats = { ...stats, totalXp: stats.totalXp + 20 };
-      setStats(updatedStats);
-      saveUserStats(updatedStats);
     } else {
       sounds.playWrong();
       setHearts((prev) => Math.max(0, prev - 1));
@@ -171,7 +174,6 @@ export default function App() {
       <Header
         hearts={hearts}
         streak={stats.streakDays}
-        xp={stats.totalXp}
         soundEnabled={soundEnabled}
         onToggleSound={() => setSoundEnabled(!soundEnabled)}
         remainingPrizes={getRemainingWinnerSlots()}
@@ -185,7 +187,6 @@ export default function App() {
           <HomeView
             onStartQuiz={startQuiz}
             onOpenLeaderboard={() => setView('leaderboard')}
-            xp={stats.totalXp}
             streak={stats.streakDays}
           />
         )}
@@ -205,6 +206,8 @@ export default function App() {
             <div className="flex-1 flex flex-col justify-center">
               <TypingQuestion
                 question={currentQuestion}
+                questionNumber={currentQuestionIdx + 1}
+                totalQuestions={QUESTIONS_POOL.length}
                 typedAnswer={typedAnswer}
                 onTypeAnswer={(val) => setTypedAnswer(val)}
                 onSubmit={handleCheckAnswer}
@@ -266,8 +269,14 @@ export default function App() {
             <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 uppercase">
               Out of Hearts!
             </h2>
+
+            <div className="inline-flex items-center gap-2 bg-slate-100 text-slate-800 px-4 py-1.5 rounded-full text-xs font-black border border-slate-200 shadow-sm">
+              <span className="text-slate-500 uppercase tracking-wider">Final Result:</span>
+              <span className="text-rose-600 font-extrabold text-sm">{score}/{QUESTIONS_POOL.length}</span>
+            </div>
+
             <p className="text-xs text-slate-600 dark:text-slate-400 max-w-xs mx-auto leading-relaxed font-medium">
-              You ran out of hearts on question {currentQuestionIdx + 1}. Don't worry! Faith grows through perseverance.
+              You reached question {currentQuestionIdx + 1} with a score of {score}/{QUESTIONS_POOL.length}. Don't worry! Faith grows through perseverance.
             </p>
 
             <div className="pt-4 space-y-2">

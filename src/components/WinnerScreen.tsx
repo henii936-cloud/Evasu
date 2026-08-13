@@ -82,6 +82,12 @@ export const WinnerScreen: React.FC<WinnerScreenProps> = ({
           {isPerfectScore ? 'CHAMPION!' : 'QUEST COMPLETED!'}
         </h1>
 
+        {/* Highlighted Final Result */}
+        <div className="mt-2 mb-1 inline-flex items-center gap-2 bg-amber-400 text-slate-950 px-3.5 py-1 rounded-full text-xs font-black tracking-wider uppercase shadow-sm">
+          <span>FINAL RESULT:</span>
+          <span className="bg-slate-950 text-amber-400 px-2 py-0.5 rounded font-extrabold text-xs">{score}/{totalQuestions}</span>
+        </div>
+
         {/* Stats */}
         <div className="grid grid-cols-3 gap-2 bg-slate-800 p-2 rounded-xl my-2 text-xs font-bold">
           <div>
@@ -136,6 +142,16 @@ export const WinnerScreen: React.FC<WinnerScreenProps> = ({
                 </>
               )}
             </button>
+          </div>
+        ) : !isPerfectScore ? (
+          <div className="text-center space-y-2 py-2 bg-amber-50 rounded-xl p-3 border border-amber-200">
+            <Gift className="w-7 h-7 text-amber-600 mx-auto" />
+            <h3 className="text-sm font-bold text-slate-900">
+              Score 10/10 To Unlock Prize Card!
+            </h3>
+            <p className="text-xs text-slate-600 font-medium leading-relaxed">
+              You scored {score}/{totalQuestions}. Answer all 10 questions correctly to claim one of the 5 reward cards!
+            </p>
           </div>
         ) : remainingSlots > 0 ? (
           <div className="space-y-3">

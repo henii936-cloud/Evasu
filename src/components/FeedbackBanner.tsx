@@ -46,7 +46,7 @@ export const FeedbackBanner: React.FC<FeedbackBannerProps> = ({
             <h3 className={`font-extrabold text-xs sm:text-sm flex flex-wrap items-center gap-1.5 ${isCorrect ? 'text-emerald-900' : 'text-rose-900'}`}>
               <span>
                 {isCorrect
-                  ? 'Correct! +20 XP'
+                  ? 'Correct!'
                   : isTimeout
                   ? 'Time Expired! (-1 Heart)'
                   : 'Incorrect (-1 Heart)'}

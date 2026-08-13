@@ -1,11 +1,10 @@
 import React from 'react';
-import { Heart, Flame, Zap, Volume2, VolumeX, ShieldAlert, Award } from 'lucide-react';
+import { Heart, Volume2, VolumeX, ShieldAlert, Award } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
 interface HeaderProps {
   hearts: number;
   streak: number;
-  xp: number;
   soundEnabled: boolean;
   onToggleSound: () => void;
   remainingPrizes: number;
@@ -15,8 +14,6 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({
   hearts,
-  streak,
-  xp,
   soundEnabled,
   onToggleSound,
   remainingPrizes,
@@ -48,15 +45,6 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
             <span>{hearts}</span>
-          </div>
-
-          {/* XP */}
-          <div 
-            className="flex items-center gap-1 bg-amber-50 px-2.5 py-1 rounded-full text-xs font-semibold text-amber-700"
-            title="Total Kingdom XP"
-          >
-            <Zap className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
-            <span>{xp}</span>
           </div>
 
           {/* Winner Prize Badge */}

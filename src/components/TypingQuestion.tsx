@@ -4,6 +4,8 @@ import { Question } from '../types';
 
 interface TypingQuestionProps {
   question: Question;
+  questionNumber?: number;
+  totalQuestions?: number;
   typedAnswer: string;
   onTypeAnswer: (value: string) => void;
   onSubmit: () => void;
@@ -12,6 +14,8 @@ interface TypingQuestionProps {
 
 export const TypingQuestion: React.FC<TypingQuestionProps> = ({
   question,
+  questionNumber = 1,
+  totalQuestions = 10,
   typedAnswer,
   onTypeAnswer,
   onSubmit,
@@ -35,10 +39,13 @@ export const TypingQuestion: React.FC<TypingQuestionProps> = ({
     <div className="w-full flex flex-col gap-3 animate-fadeIn">
       {/* Question Card */}
       <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
-        {/* Category */}
+        {/* Category & Question Number */}
         <div className="flex items-center justify-between mb-1">
           <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
             {question.category || 'Typing Quest'}
+          </span>
+          <span className="bg-slate-100 text-slate-800 text-[11px] font-extrabold px-2 py-0.5 rounded-md border border-slate-200 font-mono">
+            Question {questionNumber}/{totalQuestions}
           </span>
         </div>
 

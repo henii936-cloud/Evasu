@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, ShieldAlert, RefreshCw, Gift, Check, KeyRound, AlertCircle, Trash2 } from 'lucide-react';
-import { getWinners, resetWinnersToDefault, clearAllWinners, resetAllGameData, generate13DigitCardCode } from '../utils/storage';
+import { X, ShieldAlert, RefreshCw, Gift, Check, KeyRound, AlertCircle, Trash2, CreditCard, Sparkles, Save } from 'lucide-react';
+import { getWinners, resetAllGameData, clearAllWinners, generate13DigitCardCode, getPresetRewardCards, savePresetRewardCards } from '../utils/storage';
 import { sounds } from '../utils/audio';
 
 interface AdminModalProps {
@@ -19,20 +19,44 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   onDataReset,
 }) => {
   const [winners, setWinners] = useState(getWinners());
+  const [presetCards, setPresetCards] = useState<string[]>(getPresetRewardCards());
   const [msg, setMsg] = useState('');
   const [passcode, setPasscode] = useState('');
   const [passError, setPassError] = useState('');
 
   if (!isOpen) return null;
 
+  const handlePresetCardChange = (index: number, val: string) => {
+    const updated = [...presetCards];
+    updated[index] = val;
+    setPresetCards(updated);
+  };
+
+  const handleGenerateAllPresetCards = () => {
+    const fresh = [1, 2, 3, 4, 5].map(() => generate13DigitCardCode());
+    setPresetCards(fresh);
+    setMsg('Generated 5 new 13-digit card numbers! Click "Save 5 Reward Cards" to apply.');
+    sounds.playClick();
+  };
+
+  const handleSavePresetCards = () => {
+    const saved = savePresetRewardCards(presetCards);
+    setPresetCards(saved);
+    setMsg('5 Reward Cards saved successfully!');
+    sounds.playVictory();
+  };
+
   const handlePasscodeReset = (e: React.FormEvent) => {
     e.preventDefault();
     if (passcode.trim() === '1562') {
       resetAllGameData();
       setWinners([]);
+      const freshCards = [1, 2, 3, 4, 5].map(() => generate13DigitCardCode());
+      savePresetRewardCards(freshCards);
+      setPresetCards(freshCards);
       onResetUserHearts();
       onDataReset?.();
-      setMsg('Game reset complete! All user data removed & claimed slots reset to 0 (5/5 open).');
+      setMsg('Game reset complete! Cleared user data & refreshed 5 reward card slots.');
       setPassError('');
       setPasscode('');
       sounds.playVictory();
@@ -45,9 +69,12 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   const handleResetToDefault = () => {
     resetAllGameData();
     setWinners([]);
+    const freshCards = [1, 2, 3, 4, 5].map(() => generate13DigitCardCode());
+    savePresetRewardCards(freshCards);
+    setPresetCards(freshCards);
     onResetUserHearts();
     onDataReset?.();
-    setMsg('Restored default state (0 claimed, all 5 slots open)!');
+    setMsg('Restored default state (0 claimed, 5 fresh 13-digit reward cards ready)!');
     sounds.playClick();
   };
 
@@ -55,7 +82,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     clearAllWinners();
     setWinners([]);
     onDataReset?.();
-    setMsg('Cleared all (5/5 open)!');
+    setMsg('Cleared all claimed slots (5/5 open)!');
     sounds.playClick();
   };
 
@@ -64,7 +91,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
       id: 'w-mock-' + num,
       name: `Player #${num}`,
       claimedAt: new Date().toISOString(),
-      cardCode: generate13DigitCardCode(),
+      cardCode: presetCards[num - 1] || generate13DigitCardCode(),
       score: 10,
       timeTakenSeconds: 300 + num * 20,
     }));
@@ -76,13 +103,13 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
-      <div className="bg-white rounded-2xl p-5 max-w-sm w-full shadow-lg border border-slate-200 space-y-3">
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-3 animate-fadeIn">
+      <div className="bg-white rounded-2xl p-4 max-w-md w-full shadow-lg border border-slate-200 space-y-3 max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between pb-2 border-b border-slate-100">
           <div className="flex items-center gap-1.5 text-slate-900 font-bold text-sm">
             <ShieldAlert className="w-4 h-4 text-amber-500" />
-            <span>Admin Testing Panel</span>
+            <span>Admin Control Panel</span>
           </div>
 
           <button onClick={onClose} className="p-1 rounded text-slate-400 hover:text-slate-600">
@@ -91,11 +118,59 @@ export const AdminModal: React.FC<AdminModalProps> = ({
         </div>
 
         {msg && (
-          <div className="p-2 bg-emerald-50 text-emerald-800 rounded-lg text-xs font-bold flex items-center gap-1.5 leading-snug">
-            <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+          <div className="p-2.5 bg-emerald-50 text-emerald-800 rounded-xl text-xs font-bold flex items-center gap-1.5 leading-snug border border-emerald-200">
+            <Check className="w-4 h-4 text-emerald-600 shrink-0" />
             <span>{msg}</span>
           </div>
         )}
+
+        {/* Manage 5 Reward Cards */}
+        <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-xs font-extrabold text-slate-800">
+              <CreditCard className="w-4 h-4 text-emerald-600" />
+              <span>5 Reward Cards (1 per 10/10 Winner)</span>
+            </div>
+            <button
+              type="button"
+              onClick={handleGenerateAllPresetCards}
+              className="text-[10px] font-bold text-amber-800 bg-amber-100 hover:bg-amber-200 px-2 py-0.5 rounded-lg transition-all flex items-center gap-1 border border-amber-200"
+            >
+              <Sparkles className="w-3 h-3 text-amber-600" />
+              <span>Auto-Generate</span>
+            </button>
+          </div>
+
+          <p className="text-[10px] text-slate-500 leading-tight font-medium">
+            Enter or edit 13-digit card numbers for the 5 reward slots (given to players who score 10/10):
+          </p>
+
+          <div className="space-y-1.5 pt-0.5">
+            {presetCards.map((card, idx) => (
+              <div key={idx} className="flex items-center gap-2">
+                <span className="text-[10px] font-black text-slate-500 font-mono w-14 shrink-0">
+                  Card #{idx + 1}:
+                </span>
+                <input
+                  type="text"
+                  value={card}
+                  onChange={(e) => handlePresetCardChange(idx, e.target.value)}
+                  placeholder="e.g. 8492-3019-4821-7"
+                  className="flex-1 bg-white border border-slate-200 focus:border-emerald-500 text-slate-900 font-mono text-xs font-bold rounded-lg px-2.5 py-1.5 outline-none shadow-2xs"
+                />
+              </div>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={handleSavePresetCards}
+            className="w-full mt-1 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-1.5 shadow-xs"
+          >
+            <Save className="w-3.5 h-3.5" />
+            <span>Save 5 Reward Cards</span>
+          </button>
+        </div>
 
         {/* Code Verification Reset Form */}
         <form onSubmit={handlePasscodeReset} className="bg-slate-900 text-white rounded-xl p-3 space-y-2">
@@ -104,7 +179,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
             <span>Master Game Reset</span>
           </div>
           <p className="text-[10px] text-slate-300 leading-tight">
-            Enter master authorization code to remove all user data & reset claimed slots to 0.
+            Enter master code (1562) to clear user data & reset claimed slots to 0.
           </p>
 
           <div className="flex gap-1.5">
@@ -116,7 +191,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 setPasscode(e.target.value);
                 setPassError('');
               }}
-              placeholder="Enter master code"
+              placeholder="Enter code (1562)"
               className="flex-1 bg-slate-800 border border-slate-700 focus:border-amber-400 text-white placeholder-slate-500 text-xs font-mono font-bold rounded-lg px-2.5 py-1.5 outline-none"
             />
             <button
@@ -139,7 +214,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
         {/* Quick Testing Preset Controls */}
         <div className="space-y-1 text-xs">
           <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider">
-            Quick Slot Presets ({winners.length}/5 Claimed)
+            Slot Presets ({winners.length}/5 Claimed)
           </span>
 
           <div className="space-y-1.5">
@@ -155,7 +230,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               onClick={handleClearAll}
               className="w-full p-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-900 font-bold border border-emerald-200 flex items-center justify-between"
             >
-              <span>Clear All (5/5 Open)</span>
+              <span>Clear All Claimed Slots (5/5 Open)</span>
               <Gift className="w-3.5 h-3.5 text-emerald-600" />
             </button>
 
