@@ -25,12 +25,6 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-xl mx-auto flex items-center justify-between gap-2">
         {/* Brand / Logo */}
         <div className="flex items-center gap-2">
-          <img 
-            src="/src/assets/images/evasue_official_logo_1786636313939.jpg" 
-            alt="EvaSUE Logo" 
-            className="w-9 h-9 object-contain rounded-lg border border-slate-200 bg-white p-0.5 shadow-2xs"
-            referrerPolicy="no-referrer"
-          />
           <div>
             <h1 className="font-extrabold text-xs sm:text-sm tracking-wider text-slate-900 leading-none flex items-center gap-1">
               <span>Group 6</span>
