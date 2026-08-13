@@ -18,6 +18,10 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   onResetUserHearts,
   onDataReset,
 }) => {
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [adminPassword, setAdminPassword] = useState('');
+  const [authError, setAuthError] = useState('');
+
   const [winners, setWinners] = useState(getWinners());
   const [presetCards, setPresetCards] = useState<string[]>(getPresetRewardCards());
   const [msg, setMsg] = useState('');
@@ -25,6 +29,26 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   const [passError, setPassError] = useState('');
 
   if (!isOpen) return null;
+
+  const handleClose = () => {
+    setIsUnlocked(false);
+    setAdminPassword('');
+    setAuthError('');
+    onClose();
+  };
+
+  const handleAdminAuth = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (adminPassword === 'GEvasu2016@.') {
+      setIsUnlocked(true);
+      setAuthError('');
+      setAdminPassword('');
+      sounds.playVictory();
+    } else {
+      setAuthError('Incorrect password! Access denied.');
+      sounds.playWrong();
+    }
+  };
 
   const handlePresetCardChange = (index: number, val: string) => {
     const updated = [...presetCards];
@@ -48,7 +72,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
 
   const handlePasscodeReset = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passcode.trim() === '1562') {
+    if (passcode.trim() === 'GEvasu2016@.' || passcode.trim() === '1562') {
       resetAllGameData();
       setWinners([]);
       const freshCards = [1, 2, 3, 4, 5].map(() => generate13DigitCardCode());
@@ -102,6 +126,59 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     sounds.playClick();
   };
 
+  if (!isUnlocked) {
+    return (
+      <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-3 animate-fadeIn">
+        <div className="bg-white rounded-2xl p-5 max-w-sm w-full shadow-lg border border-slate-200 space-y-4">
+          {/* Header */}
+          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+            <div className="flex items-center gap-2 text-slate-900 font-extrabold text-sm">
+              <KeyRound className="w-4 h-4 text-amber-500" />
+              <span>Admin Authentication</span>
+            </div>
+
+            <button onClick={handleClose} className="p-1 rounded text-slate-400 hover:text-slate-600">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          <form onSubmit={handleAdminAuth} className="space-y-3">
+            <div className="space-y-1">
+              <label className="block text-xs font-bold text-slate-700">
+                Admin Password Required
+              </label>
+              <input
+                type="password"
+                value={adminPassword}
+                onChange={(e) => {
+                  setAdminPassword(e.target.value);
+                  setAuthError('');
+                }}
+                placeholder="Enter password"
+                autoFocus
+                className="w-full bg-slate-50 border border-slate-200 focus:border-amber-500 text-slate-900 font-mono text-sm font-bold rounded-xl px-3 py-2 outline-none shadow-2xs"
+              />
+            </div>
+
+            {authError && (
+              <p className="text-xs font-bold text-rose-600 flex items-center gap-1.5 bg-rose-50 p-2 rounded-lg border border-rose-200">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span>{authError}</span>
+              </p>
+            )}
+
+            <button
+              type="submit"
+              className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-amber-400 font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm active:translate-y-0.5"
+            >
+              Unlock Admin Panel
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-3 animate-fadeIn">
       <div className="bg-white rounded-2xl p-4 max-w-md w-full shadow-lg border border-slate-200 space-y-3 max-h-[90vh] overflow-y-auto">
@@ -112,7 +189,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
             <span>Admin Control Panel</span>
           </div>
 
-          <button onClick={onClose} className="p-1 rounded text-slate-400 hover:text-slate-600">
+          <button onClick={handleClose} className="p-1 rounded text-slate-400 hover:text-slate-600">
             <X className="w-4 h-4" />
           </button>
         </div>
