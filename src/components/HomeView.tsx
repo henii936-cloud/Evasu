@@ -36,6 +36,16 @@ export const HomeView: React.FC<HomeViewProps> = ({
           Explore 1st Peter (Chapters 1–3) — Seeing, Living & Preaching the Hope of God's Kingdom! Complete 10 questions to claim 1 of 5 reward cards!
         </p>
 
+        {/* English & Amharic Spelling Notice */}
+        <div className="mt-2.5 bg-amber-50 border border-amber-200/80 rounded-xl p-2 text-center">
+          <p className="text-[11px] font-extrabold text-amber-900">
+            ⚠️ Check your spelling, while you type
+          </p>
+          <p className="text-[10px] font-bold text-amber-800 mt-0.5">
+            በሚጽፉበት ጊዜ የፊደል አጻጻፍዎን ያረጋግጡ
+          </p>
+        </div>
+
         {/* Prize Status Badge */}
         <div className="mt-3 inline-flex items-center gap-1.5 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 text-xs font-bold text-emerald-800">
           <Gift className="w-3.5 h-3.5 text-emerald-600" />

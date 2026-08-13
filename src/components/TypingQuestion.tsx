@@ -59,20 +59,33 @@ export const TypingQuestion: React.FC<TypingQuestionProps> = ({
         </div>
 
         {/* Title */}
-        <h2 className="text-lg font-extrabold text-slate-900 mb-2">
+        <h2 className="text-lg font-extrabold text-slate-900 mb-1">
           {question.title}
         </h2>
 
+        {/* Emojis Display if present */}
+        {question.emojis && question.emojis.length > 0 && (
+          <div className="bg-slate-50 rounded-xl p-2.5 my-1.5 border border-slate-100 flex items-center justify-center gap-2 flex-wrap">
+            {question.emojis.map((emoji, idx) => (
+              <span key={idx} className="text-2xl sm:text-3xl select-none">
+                {emoji}
+              </span>
+            ))}
+          </div>
+        )}
+
         {/* Verse Card */}
-        <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-100 my-1">
+        <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 my-1">
           <p className="text-sm font-serif italic text-slate-800 leading-relaxed">
             "{question.questionText}"
           </p>
-          <div className="mt-2 text-right">
-            <span className="inline-block bg-slate-200 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded">
-              {question.scriptureRef}
-            </span>
-          </div>
+          {question.scriptureRef && (
+            <div className="mt-1.5 text-right">
+              <span className="inline-block bg-slate-200 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded">
+                {question.scriptureRef}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Hint Box */}

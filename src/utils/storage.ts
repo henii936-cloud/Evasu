@@ -3,25 +3,8 @@ import { WinnerClaim, UserStats } from '../types';
 const STORAGE_KEY_WINNERS = 'hotk_winners_list_v1';
 const STORAGE_KEY_USER_STATS = 'hotk_user_stats_v1';
 
-// Initial default winners (2 claimed out of 5 total, so 3 remain available)
-const DEFAULT_WINNERS: WinnerClaim[] = [
-  {
-    id: 'w-101',
-    name: 'Ruth K. (Jerusalem)',
-    claimedAt: '2026-08-10T14:20:00Z',
-    cardCode: '9841-2048-7310-4',
-    score: 10,
-    timeTakenSeconds: 340,
-  },
-  {
-    id: 'w-102',
-    name: 'David M. (London)',
-    claimedAt: '2026-08-11T09:15:00Z',
-    cardCode: '7103-8894-1250-9',
-    score: 10,
-    timeTakenSeconds: 412,
-  },
-];
+// Initial default winners (0 claimed out of 5 total, so all 5 remain available)
+const DEFAULT_WINNERS: WinnerClaim[] = [];
 
 export function generate13DigitCardCode(): string {
   // Generates a 13-digit card formatted as XXXX-XXXX-XXXX-X

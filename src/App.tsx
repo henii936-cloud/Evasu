@@ -202,22 +202,13 @@ export default function App() {
 
             {/* Question Screen View */}
             <div className="flex-1 flex flex-col justify-center">
-              {currentQuestion.type === 'emoji' ? (
-                <EmojiGame
-                  question={currentQuestion}
-                  selectedOption={selectedOption}
-                  onSelectOption={(opt) => setSelectedOption(opt)}
-                  disabled={feedbackState.show}
-                />
-              ) : (
-                <TypingQuestion
-                  question={currentQuestion}
-                  typedAnswer={typedAnswer}
-                  onTypeAnswer={(val) => setTypedAnswer(val)}
-                  onSubmit={handleCheckAnswer}
-                  disabled={feedbackState.show}
-                />
-              )}
+              <TypingQuestion
+                question={currentQuestion}
+                typedAnswer={typedAnswer}
+                onTypeAnswer={(val) => setTypedAnswer(val)}
+                onSubmit={handleCheckAnswer}
+                disabled={feedbackState.show}
+              />
             </div>
 
             {/* Check Answer Button (When Feedback is Not Active) */}
@@ -225,11 +216,7 @@ export default function App() {
               <div className="pt-2 shrink-0">
                 <button
                   type="button"
-                  disabled={
-                    currentQuestion.type === 'emoji'
-                      ? !selectedOption
-                      : !typedAnswer.trim()
-                  }
+                  disabled={!typedAnswer.trim()}
                   onClick={handleCheckAnswer}
                   className="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 disabled:bg-slate-200 disabled:text-slate-400 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-sm active:translate-y-0.5 disabled:cursor-not-allowed"
                 >

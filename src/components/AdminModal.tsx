@@ -29,20 +29,21 @@ export const AdminModal: React.FC<AdminModalProps> = ({
       resetAllGameData();
       setWinners([]);
       onResetUserHearts();
-      setMsg('Reset complete! Entered 1562: All user data removed & 5 claimed reset to 0 (5/5 open).');
+      setMsg('Game reset complete! All user data removed & claimed slots reset to 0 (5/5 open).');
       setPassError('');
       setPasscode('');
       sounds.playVictory();
     } else {
-      setPassError('Invalid admin code! Enter 1562 to reset game.');
+      setPassError('Invalid master code entered!');
       sounds.playWrong();
     }
   };
 
-  const handleResetTo2 = () => {
-    resetWinnersToDefault();
-    setWinners(getWinners());
-    setMsg('Reset to default (2 claimed, 3 open)!');
+  const handleResetToDefault = () => {
+    resetAllGameData();
+    setWinners([]);
+    onResetUserHearts();
+    setMsg('Restored default state (0 claimed, all 5 slots open)!');
     sounds.playClick();
   };
 
@@ -90,14 +91,14 @@ export const AdminModal: React.FC<AdminModalProps> = ({
           </div>
         )}
 
-        {/* Code 1562 Reset Form */}
+        {/* Code Verification Reset Form */}
         <form onSubmit={handlePasscodeReset} className="bg-slate-900 text-white rounded-xl p-3 space-y-2">
           <div className="flex items-center gap-1.5 text-xs font-bold text-amber-400">
             <KeyRound className="w-3.5 h-3.5" />
-            <span>Master Game Reset (Code: 1562)</span>
+            <span>Master Game Reset</span>
           </div>
           <p className="text-[10px] text-slate-300 leading-tight">
-            Enter code <strong className="text-white">1562</strong> to remove all user data & reset 5 claimed slots to 0.
+            Enter master authorization code to remove all user data & reset claimed slots to 0.
           </p>
 
           <div className="flex gap-1.5">
@@ -109,7 +110,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 setPasscode(e.target.value);
                 setPassError('');
               }}
-              placeholder="Enter code 1562"
+              placeholder="Enter master code"
               className="flex-1 bg-slate-800 border border-slate-700 focus:border-amber-400 text-white placeholder-slate-500 text-xs font-mono font-bold rounded-lg px-2.5 py-1.5 outline-none"
             />
             <button
@@ -137,10 +138,10 @@ export const AdminModal: React.FC<AdminModalProps> = ({
 
           <div className="space-y-1.5">
             <button
-              onClick={handleResetTo2}
+              onClick={handleResetToDefault}
               className="w-full p-2 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold border border-slate-200 flex items-center justify-between"
             >
-              <span>Reset Default (2 Claimed, 3 Open)</span>
+              <span>Restore Default (0 Claimed, 5/5 Open)</span>
               <RefreshCw className="w-3.5 h-3.5 text-slate-500" />
             </button>
 
