@@ -13,7 +13,6 @@ export const QUESTIONS_POOL: Question[] = [
     correctAnswer: 'living',
     correctAnswerAmharic: 'ሕያው',
     acceptableAnswers: ['living', 'ሕያው', 'a living', 'living hope'],
-    hint: 'Active, vibrant, and alive (6 letters / ሕያው).',
     category: '1 Peter 1: Seeing Hope',
   },
   {
@@ -28,7 +27,6 @@ export const QUESTIONS_POOL: Question[] = [
     correctAnswer: 'gold',
     correctAnswerAmharic: 'ወርቅ',
     acceptableAnswers: ['gold', 'ወርቅ', 'fine gold', 'pure gold'],
-    hint: 'Valuable yellow precious metal (4 letters / ወርቅ).',
     category: '1 Peter 1: Seeing Hope',
   },
   {
@@ -44,7 +42,6 @@ export const QUESTIONS_POOL: Question[] = [
     correctAnswer: 'Peter',
     correctAnswerAmharic: 'ጴጥሮስ',
     acceptableAnswers: ['peter', 'ጴጥሮስ', 'saint peter', 'st peter', 'simon peter', 'petros', 'apostle peter'],
-    hint: 'Apostle and author of 1 Peter (Starts with P / ጴጥሮስ)...',
     category: '1 Peter Characters',
   },
   {
@@ -59,7 +56,6 @@ export const QUESTIONS_POOL: Question[] = [
     correctAnswer: 'stones',
     correctAnswerAmharic: 'ድንጋዮች',
     acceptableAnswers: ['stones', 'ድንጋዮች', 'ድንጋይ', 'stone', 'living stones'],
-    hint: 'Building materials used for a house or temple (6 letters / ድንጋዮች).',
     category: '1 Peter 2: Living Hope',
   },
   {
@@ -75,7 +71,6 @@ export const QUESTIONS_POOL: Question[] = [
     correctAnswer: 'Abraham',
     correctAnswerAmharic: 'አብርሃም',
     acceptableAnswers: ['abraham', 'አብርሃም', 'abram', 'saint abraham'],
-    hint: 'Father of faith who looked up at the stars (Starts with A / አብርሃም)...',
     category: '1 Peter Characters',
   },
   {
@@ -90,7 +85,6 @@ export const QUESTIONS_POOL: Question[] = [
     correctAnswer: 'wounds',
     correctAnswerAmharic: 'ቁስል (ግርፋት)',
     acceptableAnswers: ['wounds', 'ቁስል', 'ቁስሉ', 'ግርፋት', 'stripes', 'his wounds', 'his stripes'],
-    hint: 'Injuries or stripes suffered for us on the cross (6 letters / ቁስል).',
     category: '1 Peter 2: Living Hope',
   },
   {
@@ -106,7 +100,6 @@ export const QUESTIONS_POOL: Question[] = [
     correctAnswer: 'Noah',
     correctAnswerAmharic: 'ኖኅ',
     acceptableAnswers: ['noah', 'ኖኅ', 'ኖህ', 'noa', 'prophet noah'],
-    hint: 'Built the ark and saw the rainbow covenant (Starts with N / ኖኅ)...',
     category: '1 Peter Characters',
   },
   {
@@ -121,7 +114,6 @@ export const QUESTIONS_POOL: Question[] = [
     correctAnswer: 'hope',
     correctAnswerAmharic: 'ተስፋ',
     acceptableAnswers: ['hope', 'ተስፋ', 'the hope', 'our hope'],
-    hint: 'Central spiritual confidence in Christ (4 letters / ተስፋ).',
     category: '1 Peter 3: Preaching Hope',
   },
   {
@@ -137,7 +129,6 @@ export const QUESTIONS_POOL: Question[] = [
     correctAnswer: 'Eutychus',
     correctAnswerAmharic: 'አውጤኪስ',
     acceptableAnswers: ['eutychus', 'አውጤኪስ', 'eutychos', 'eutycus', 'utychus'],
-    hint: 'Fell asleep in a window during Paul\'s sermon (Starts with E / አውጤኪስ)...',
     category: 'Early Church Characters',
   },
   {
@@ -152,7 +143,6 @@ export const QUESTIONS_POOL: Question[] = [
     correctAnswer: 'humble',
     correctAnswerAmharic: 'ትሑታን',
     acceptableAnswers: ['humble', 'ትሑት', 'ትሑታን', 'courteous', 'be humble'],
-    hint: 'Modest, not proud or arrogant (6 letters / ትሑታን).',
     category: '1 Peter 3: Preaching Hope',
   },
 ];

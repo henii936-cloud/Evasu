@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Lightbulb, Send, XCircle } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
+import { Send, XCircle } from 'lucide-react';
 import { Question } from '../types';
-import { sounds } from '../utils/audio';
 
 interface TypingQuestionProps {
   question: Question;
@@ -18,7 +17,6 @@ export const TypingQuestion: React.FC<TypingQuestionProps> = ({
   onSubmit,
   disabled,
 }) => {
-  const [showHint, setShowHint] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -37,25 +35,11 @@ export const TypingQuestion: React.FC<TypingQuestionProps> = ({
     <div className="w-full flex flex-col gap-3 animate-fadeIn">
       {/* Question Card */}
       <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
-        {/* Category & Hint */}
+        {/* Category */}
         <div className="flex items-center justify-between mb-1">
           <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
             {question.category || 'Typing Quest'}
           </span>
-
-          {question.hint && (
-            <button
-              type="button"
-              onClick={() => {
-                setShowHint(!showHint);
-                sounds.playClick();
-              }}
-              className="text-[11px] font-semibold text-amber-600 hover:text-amber-700 flex items-center gap-1"
-            >
-              <Lightbulb className="w-3 h-3 text-amber-500" />
-              <span>{showHint ? 'Hide Hint' : 'Hint'}</span>
-            </button>
-          )}
         </div>
 
         {/* Title */}
@@ -87,13 +71,6 @@ export const TypingQuestion: React.FC<TypingQuestionProps> = ({
             </div>
           )}
         </div>
-
-        {/* Hint Box */}
-        {showHint && question.hint && (
-          <div className="mt-2 p-2.5 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800 font-medium">
-            💡 <strong>Hint:</strong> {question.hint}
-          </div>
-        )}
       </div>
 
       {/* Input */}
