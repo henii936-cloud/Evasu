@@ -29,10 +29,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
           />
         </div>
 
-        <h1 className="text-xl font-extrabold tracking-tight text-slate-900 uppercase">
+        <h1 className="text-xl font-extrabold tracking-tight text-slate-900">
           EvaSUE Group 6
         </h1>
-        <p className="text-rose-600 font-extrabold text-[11px] tracking-widest uppercase mt-0.5">
+        <p className="text-rose-600 font-extrabold text-[11px] tracking-widest mt-0.5">
           EvaSUE Hope for Kingdom
         </p>
 

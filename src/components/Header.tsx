@@ -32,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
             referrerPolicy="no-referrer"
           />
           <div>
-            <h1 className="font-extrabold text-xs sm:text-sm tracking-wider text-slate-900 uppercase leading-none flex items-center gap-1">
+            <h1 className="font-extrabold text-xs sm:text-sm tracking-wider text-slate-900 leading-none flex items-center gap-1">
               <span>Group 6</span>
               <span className="text-slate-400 font-normal">....</span>
               <span className="text-rose-600">EvaSUE</span>
