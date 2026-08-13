@@ -8,6 +8,7 @@ interface AdminModalProps {
   onClose: () => void;
   onJumpToWin: () => void;
   onResetUserHearts: () => void;
+  onDataReset?: () => void;
 }
 
 export const AdminModal: React.FC<AdminModalProps> = ({
@@ -15,6 +16,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   onClose,
   onJumpToWin,
   onResetUserHearts,
+  onDataReset,
 }) => {
   const [winners, setWinners] = useState(getWinners());
   const [msg, setMsg] = useState('');
@@ -29,6 +31,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
       resetAllGameData();
       setWinners([]);
       onResetUserHearts();
+      onDataReset?.();
       setMsg('Game reset complete! All user data removed & claimed slots reset to 0 (5/5 open).');
       setPassError('');
       setPasscode('');
@@ -43,6 +46,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     resetAllGameData();
     setWinners([]);
     onResetUserHearts();
+    onDataReset?.();
     setMsg('Restored default state (0 claimed, all 5 slots open)!');
     sounds.playClick();
   };
@@ -50,6 +54,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   const handleClearAll = () => {
     clearAllWinners();
     setWinners([]);
+    onDataReset?.();
     setMsg('Cleared all (5/5 open)!');
     sounds.playClick();
   };
@@ -65,6 +70,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     }));
     localStorage.setItem('hotk_winners_list_v1', JSON.stringify(list));
     setWinners(list);
+    onDataReset?.();
     setMsg('Filled all 5 slots (0 open)!');
     sounds.playClick();
   };

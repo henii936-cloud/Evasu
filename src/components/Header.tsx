@@ -63,10 +63,10 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onOpenLeaderboard}
             className="flex items-center gap-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full text-xs font-semibold transition-all border border-emerald-200"
-            title="13-Digit Prize Cards Remaining"
+            title="13-Digit Prize Cards Available"
           >
             <Award className="w-3.5 h-3.5 text-emerald-600" />
-            <span className="font-mono font-bold text-emerald-700">{remainingPrizes}/5</span>
+            <span className="font-mono font-bold text-emerald-700">{remainingPrizes}/5 Open</span>
           </button>
         </div>
 

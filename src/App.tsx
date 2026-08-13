@@ -30,6 +30,7 @@ export default function App() {
   const [stats, setStats] = useState(getUserStats());
   const [hearts, setHearts] = useState<number>(5);
   const [score, setScore] = useState<number>(0);
+  const [, setDataVersion] = useState<number>(0);
 
   // Quiz Gameplay State
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState<number>(0);
@@ -299,6 +300,10 @@ export default function App() {
           setView('win');
         }}
         onResetUserHearts={() => setHearts(5)}
+        onDataReset={() => {
+          setStats(getUserStats());
+          setDataVersion((v) => v + 1);
+        }}
       />
     </MobileFrame>
   );

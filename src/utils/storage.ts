@@ -20,7 +20,8 @@ export function getWinners(): WinnerClaim[] {
       localStorage.setItem(STORAGE_KEY_WINNERS, JSON.stringify(DEFAULT_WINNERS));
       return DEFAULT_WINNERS;
     }
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : DEFAULT_WINNERS;
   } catch {
     return DEFAULT_WINNERS;
   }
