@@ -19,16 +19,21 @@ export const HomeView: React.FC<HomeViewProps> = ({
     <div className="w-full max-w-sm mx-auto h-full flex flex-col justify-center items-center py-2 px-2 animate-fadeIn gap-3 my-auto">
       {/* Main Hero Card */}
       <div className="w-full bg-white text-slate-900 rounded-2xl p-4 text-center shadow-sm border border-slate-200">
-        {/* Crown Badge */}
-        <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mx-auto mb-2 text-2xl border border-amber-200 shadow-sm">
-          👑
+        {/* Logo Banner */}
+        <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center mx-auto mb-2 border border-slate-200 shadow-xs overflow-hidden p-1">
+          <img 
+            src="/src/assets/images/evasue_official_logo_1786636313939.jpg" 
+            alt="EvaSUE Official Logo" 
+            className="w-full h-full object-contain"
+            referrerPolicy="no-referrer"
+          />
         </div>
 
         <h1 className="text-xl font-extrabold tracking-tight text-slate-900 uppercase">
-          Evasu Hope for Kingdom
+          EvaSUE Group 6
         </h1>
-        <p className="text-slate-500 font-bold text-[10px] tracking-widest uppercase mt-0.5">
-          Quiz Challenge
+        <p className="text-rose-600 font-extrabold text-[11px] tracking-widest uppercase mt-0.5">
+          EvaSUE Hope for Kingdom
         </p>
 
         <p className="text-xs text-slate-600 leading-snug mt-2 max-w-xs mx-auto">

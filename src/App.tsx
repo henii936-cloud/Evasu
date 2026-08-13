@@ -54,6 +54,7 @@ export default function App() {
   const [timeLeft, setTimeLeft] = useState<number>(currentQuestion?.timeLimitSeconds || 120);
   const [quizStartTime, setQuizStartTime] = useState<number>(Date.now());
   const [totalTimeTaken, setTotalTimeTaken] = useState<number>(0);
+  const [totalElapsedSeconds, setTotalElapsedSeconds] = useState<number>(0);
 
   // Sync sound class
   useEffect(() => {
@@ -76,6 +77,8 @@ export default function App() {
         }
         return prev - 1;
       });
+
+      setTotalElapsedSeconds((prev) => prev + 1);
     }, 1000);
 
     return () => clearInterval(timer);
@@ -104,6 +107,7 @@ export default function App() {
     setFeedbackState({ show: false, isCorrect: false });
     setTimeLeft(QUESTIONS_POOL[0].timeLimitSeconds);
     setQuizStartTime(Date.now());
+    setTotalElapsedSeconds(0);
     setView('quiz');
   };
 
@@ -182,7 +186,7 @@ export default function App() {
       />
 
       {/* Main Content View Switcher */}
-      <main className="flex-1 p-3 sm:p-4 max-w-lg mx-auto w-full overflow-hidden flex flex-col justify-between">
+      <main className="flex-1 p-3 sm:p-4 max-w-lg mx-auto w-full overflow-y-auto overflow-x-hidden flex flex-col justify-between">
         {view === 'home' && (
           <HomeView
             onStartQuiz={startQuiz}
@@ -193,13 +197,14 @@ export default function App() {
 
         {view === 'quiz' && (
           <div className="flex-1 flex flex-col justify-between animate-fadeIn py-1">
-            {/* Gamified Progress Bar & Timers */}
+            {/* Gamified Progress Bar & Live Timers */}
             <ProgressBar
               currentStep={currentQuestionIdx + 1}
               totalSteps={QUESTIONS_POOL.length}
               questionType={currentQuestion.type}
               timeLeft={timeLeft}
               totalTimeSeconds={currentQuestion.timeLimitSeconds}
+              totalElapsedSeconds={totalElapsedSeconds}
             />
 
             {/* Question Screen View */}

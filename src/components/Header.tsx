@@ -25,14 +25,19 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-xl mx-auto flex items-center justify-between gap-2">
         {/* Brand / Logo */}
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-slate-900 text-amber-400 flex items-center justify-center font-bold text-sm">
-            👑
-          </div>
+          <img 
+            src="/src/assets/images/evasue_official_logo_1786636313939.jpg" 
+            alt="EvaSUE Logo" 
+            className="w-9 h-9 object-contain rounded-lg border border-slate-200 bg-white p-0.5 shadow-2xs"
+            referrerPolicy="no-referrer"
+          />
           <div>
-            <h1 className="font-extrabold text-xs sm:text-sm tracking-wider text-slate-900 uppercase leading-none">
-              Evasu Hope for Kingdom
+            <h1 className="font-extrabold text-xs sm:text-sm tracking-wider text-slate-900 uppercase leading-none flex items-center gap-1">
+              <span>Group 6</span>
+              <span className="text-slate-400 font-normal">....</span>
+              <span className="text-rose-600">EvaSUE</span>
             </h1>
-            <span className="text-[10px] text-slate-400 font-medium">Quiz Challenge</span>
+            <span className="text-[10px] text-slate-500 font-bold">EvaSUE Hope for Kingdom</span>
           </div>
         </div>
 
