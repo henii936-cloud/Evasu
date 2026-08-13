@@ -230,8 +230,10 @@ export default function App() {
               <FeedbackBanner
                 isCorrect={feedbackState.isCorrect}
                 correctAnswer={currentQuestion.correctAnswer}
+                correctAnswerAmharic={currentQuestion.correctAnswerAmharic}
                 scriptureRef={currentQuestion.scriptureRef}
                 explanation={currentQuestion.explanation}
+                explanationAmharic={currentQuestion.explanationAmharic}
                 onNext={handleNextQuestion}
                 isTimeout={feedbackState.isTimeout}
               />

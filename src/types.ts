@@ -7,12 +7,14 @@ export interface Question {
   questionText: string;
   scriptureRef: string;
   explanation: string;
+  explanationAmharic?: string;
   timeLimitSeconds: number; // 120s for emoji, 60s for typing
   
   // Emoji game fields
   emojis?: string[];
   options?: string[]; // Multiple choice options for emoji decoding
   correctAnswer: string; // Correct answer text
+  correctAnswerAmharic?: string; // Correct answer in Amharic
   acceptableAnswers?: string[]; // Alternative spellings/synonyms for typing
   hint?: string;
   category?: string; // 'Miracles', 'Old Testament', 'Parables', 'Prophets', etc.
