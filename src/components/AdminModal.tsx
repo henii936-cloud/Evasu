@@ -1,7 +1,18 @@
-import React, { useState } from 'react';
-import { X, ShieldAlert, RefreshCw, Gift, Check, KeyRound, AlertCircle, Trash2, CreditCard, Sparkles, Save } from 'lucide-react';
-import { getWinners, resetAllGameData, clearAllWinners, generate13DigitCardCode, getPresetRewardCards, savePresetRewardCards } from '../utils/storage';
+import React, { useState, useEffect } from 'react';
+import { X, ShieldAlert, RefreshCw, Gift, Check, KeyRound, AlertCircle, Trash2, CreditCard, Sparkles, Save, ShieldCheck, Lock, Unlock } from 'lucide-react';
+import { 
+  getWinners, 
+  resetAllGameData, 
+  clearAllWinners, 
+  generate13DigitCardCode, 
+  getPresetRewardCards, 
+  savePresetRewardCards,
+  getPermanentIpClaimsList,
+  adminClearAllIpRestrictions
+} from '../utils/storage';
 import { sounds } from '../utils/audio';
+import { maskIp } from '../utils/ipTracker';
+import { IpClaimRecord } from '../types';
 
 interface AdminModalProps {
   isOpen: boolean;
@@ -27,6 +38,13 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   const [msg, setMsg] = useState('');
   const [passcode, setPasscode] = useState('');
   const [passError, setPassError] = useState('');
+  const [ipClaimsList, setIpClaimsList] = useState<IpClaimRecord[]>([]);
+
+  useEffect(() => {
+    if (isOpen && isUnlocked) {
+      getPermanentIpClaimsList().then((list) => setIpClaimsList(list));
+    }
+  }, [isOpen, isUnlocked]);
 
   if (!isOpen) return null;
 
@@ -43,6 +61,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
       setIsUnlocked(true);
       setAuthError('');
       setAdminPassword('');
+      getPermanentIpClaimsList().then((list) => setIpClaimsList(list));
       sounds.playVictory();
     } else {
       setAuthError('Incorrect password! Access denied.');
@@ -80,7 +99,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
       setPresetCards(freshCards);
       onResetUserHearts();
       onDataReset?.();
-      setMsg('Game reset complete! Cleared user data & refreshed 5 reward card slots.');
+      setMsg('Game reset complete! Cleared active winners list & refreshed 5 slots (IP restrictions remain active).');
       setPassError('');
       setPasscode('');
       sounds.playVictory();
@@ -98,7 +117,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     setPresetCards(freshCards);
     onResetUserHearts();
     onDataReset?.();
-    setMsg('Restored default state (0 claimed, 5 fresh 13-digit reward cards ready)!');
+    setMsg('Restored default state (0 claimed, 5/5 open). Note: IP restrictions remain active!');
     sounds.playClick();
   };
 
@@ -106,7 +125,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     clearAllWinners();
     setWinners([]);
     onDataReset?.();
-    setMsg('Cleared all claimed slots (5/5 open)!');
+    setMsg('Cleared all active claimed slots (5/5 open)!');
     sounds.playClick();
   };
 
@@ -124,6 +143,15 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     onDataReset?.();
     setMsg('Filled all 5 slots (0 open)!');
     sounds.playClick();
+  };
+
+  const handleClearAllIpRestrictions = async () => {
+    if (confirm('Are you sure you want to clear all permanent IP restrictions? This allows previously claimed IPs to claim again.')) {
+      await adminClearAllIpRestrictions();
+      setIpClaimsList([]);
+      setMsg('All IP restrictions have been cleared!');
+      sounds.playVictory();
+    }
   };
 
   if (!isUnlocked) {
@@ -201,6 +229,36 @@ export const AdminModal: React.FC<AdminModalProps> = ({
           </div>
         )}
 
+        {/* IP Restriction Enforcement Status Badge */}
+        <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-2.5 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-xs">
+              <Lock className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs font-black text-indigo-950 flex items-center gap-1">
+                <span>1 Claim Per IP Restriction</span>
+                <span className="bg-emerald-100 text-emerald-800 text-[9px] font-extrabold px-1.5 py-0.2 rounded-full">ACTIVE</span>
+              </div>
+              <p className="text-[10px] text-indigo-700 font-medium">
+                {ipClaimsList.length} unique IP(s) permanently registered.
+              </p>
+            </div>
+          </div>
+
+          {ipClaimsList.length > 0 && (
+            <button
+              type="button"
+              onClick={handleClearAllIpRestrictions}
+              title="Clear IP restrictions"
+              className="text-[10px] text-rose-700 bg-rose-100 hover:bg-rose-200 px-2 py-1 rounded-md font-bold flex items-center gap-1 transition-all"
+            >
+              <Unlock className="w-3 h-3" />
+              <span>Unblock All</span>
+            </button>
+          )}
+        </div>
+
         {/* Manage 5 Reward Cards */}
         <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-2">
           <div className="flex items-center justify-between">
@@ -256,7 +314,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
             <span>Master Game Reset</span>
           </div>
           <p className="text-[10px] text-slate-300 leading-tight">
-            Enter master code (1562) to clear user data & reset claimed slots to 0.
+            Enter master code (1562) to clear user scores & reset active slots to 0. (IP restrictions are preserved permanently).
           </p>
 
           <div className="flex gap-1.5">
@@ -291,7 +349,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
         {/* Quick Testing Preset Controls */}
         <div className="space-y-1 text-xs">
           <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider">
-            Slot Presets ({winners.length}/5 Claimed)
+            Slot Presets ({winners.length}/5 Active Winners)
           </span>
 
           <div className="space-y-1.5">
@@ -307,7 +365,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               onClick={handleClearAll}
               className="w-full p-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-900 font-bold border border-emerald-200 flex items-center justify-between"
             >
-              <span>Clear All Claimed Slots (5/5 Open)</span>
+              <span>Clear Active Claimed Slots (5/5 Open)</span>
               <Gift className="w-3.5 h-3.5 text-emerald-600" />
             </button>
 
@@ -346,5 +404,3 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     </div>
   );
 };
-
-

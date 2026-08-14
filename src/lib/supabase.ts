@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { WinnerClaim } from '../types';
+import { WinnerClaim, IpClaimRecord } from '../types';
 
 const metaEnv = (import.meta as any).env || {};
 const SUPABASE_URL = metaEnv.VITE_SUPABASE_URL || 'https://unbxzdfinweaifgkepum.supabase.co';
@@ -43,6 +43,7 @@ export async function fetchRemoteWinners(): Promise<WinnerClaim[] | null> {
       cardCode: row.card_code,
       score: row.score || 10,
       timeTakenSeconds: row.time_taken_seconds || 0,
+      ipAddress: row.ip_address || undefined,
       isCurrentUser: false,
     }));
   } catch (err) {
@@ -60,11 +61,24 @@ export async function saveRemoteWinner(winner: WinnerClaim): Promise<boolean> {
       score: winner.score,
       time_taken_seconds: winner.timeTakenSeconds,
       claimed_at: winner.claimedAt,
+      ip_address: winner.ipAddress || null,
     });
 
     if (error) {
-      console.warn('Could not save winner to Supabase:', error.message);
-      return false;
+      // If error is about missing ip_address column, retry without ip_address
+      if (error.message?.includes('ip_address')) {
+        await supabase.from('winners').insert({
+          id: winner.id,
+          name: winner.name,
+          card_code: winner.cardCode,
+          score: winner.score,
+          time_taken_seconds: winner.timeTakenSeconds,
+          claimed_at: winner.claimedAt,
+        });
+      } else {
+        console.warn('Could not save winner to Supabase:', error.message);
+        return false;
+      }
     }
     return true;
   } catch (err) {
@@ -86,3 +100,110 @@ export async function clearRemoteWinners(): Promise<boolean> {
     return false;
   }
 }
+
+/**
+ * Permanent IP Claim Storage in Supabase
+ * Stored in `ip_claims` table so game resets do not erase IP claim history.
+ */
+export async function savePermanentRemoteIpClaim(record: IpClaimRecord): Promise<boolean> {
+  try {
+    const { error } = await supabase.from('ip_claims').upsert({
+      ip: record.ip,
+      card_code: record.cardCode,
+      name: record.name,
+      score: record.score || 10,
+      claimed_at: record.claimedAt || new Date().toISOString(),
+    }, { onConflict: 'ip' });
+
+    if (error) {
+      console.warn('Could not record permanent IP claim to Supabase:', error.message);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.warn('Supabase ip_claims insert error:', err);
+    return false;
+  }
+}
+
+export async function checkRemoteIpClaimed(ip: string): Promise<IpClaimRecord | null> {
+  if (!ip) return null;
+
+  try {
+    // 1. Check dedicated ip_claims table
+    const { data: ipData, error: ipError } = await supabase
+      .from('ip_claims')
+      .select('*')
+      .eq('ip', ip)
+      .maybeSingle();
+
+    if (!ipError && ipData) {
+      return {
+        ip: ipData.ip,
+        claimedAt: ipData.claimed_at,
+        cardCode: ipData.card_code,
+        name: ipData.name,
+        score: ipData.score,
+      };
+    }
+
+    // 2. Also check if winners table contains this ip_address
+    const { data: winnerData, error: winnerError } = await supabase
+      .from('winners')
+      .select('*')
+      .eq('ip_address', ip)
+      .limit(1);
+
+    if (!winnerError && winnerData && winnerData.length > 0) {
+      const w = winnerData[0];
+      return {
+        ip,
+        claimedAt: w.claimed_at || new Date().toISOString(),
+        cardCode: w.card_code,
+        name: w.name,
+        score: w.score,
+      };
+    }
+  } catch (err) {
+    console.warn('Error checking remote IP claim in Supabase:', err);
+  }
+
+  return null;
+}
+
+export async function fetchAllRemoteIpClaims(): Promise<IpClaimRecord[]> {
+  try {
+    const { data, error } = await supabase
+      .from('ip_claims')
+      .select('*')
+      .order('claimed_at', { ascending: false });
+
+    if (!error && data) {
+      return data.map((d: any) => ({
+        ip: d.ip,
+        claimedAt: d.claimed_at,
+        cardCode: d.card_code,
+        name: d.name,
+        score: d.score,
+      }));
+    }
+  } catch (err) {
+    console.warn('Supabase fetch all ip_claims error:', err);
+  }
+  return [];
+}
+
+export async function clearAllRemoteIpClaims(): Promise<boolean> {
+  try {
+    const { error } = await supabase.from('ip_claims').delete().neq('ip', '');
+    if (error) {
+      console.warn('Could not clear remote ip_claims on Supabase:', error.message);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.warn('Supabase delete ip_claims error:', err);
+    return false;
+  }
+}
+

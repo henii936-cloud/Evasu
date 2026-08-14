@@ -27,7 +27,16 @@ export interface WinnerClaim {
   cardCode: string; // 13 digit card code e.g. "8492-3019-4821-7"
   score: number;
   timeTakenSeconds: number;
+  ipAddress?: string;
   isCurrentUser?: boolean;
+}
+
+export interface IpClaimRecord {
+  ip: string;
+  claimedAt: string;
+  cardCode: string;
+  name: string;
+  score?: number;
 }
 
 export interface QuizState {
